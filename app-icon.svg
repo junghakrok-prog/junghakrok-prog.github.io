@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <filter id="ts" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#5c2208" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <!-- 배경 — splash background_color와 완전 동일 단색 (경계 X) -->
+  <rect width="512" height="512" rx="112" fill="#e67e22"/>
+
+  <!-- 박공집 + NEO 그룹 — 추가 15px 위(약 3%↑) -->
+  <g transform="translate(256,211) scale(1.0) translate(-256,-256)">
+    <!-- 박공집 펜타곤 — 5개 꼭짓점 r=16 라운드 (path + quadratic bezier) -->
+    <path d="M 116,203 L 243,105 Q 256,95 269,105 L 396,203 Q 409,213 409,229 L 409,341 Q 409,357 393,357 L 119,357 Q 103,357 103,341 L 103,229 Q 103,213 116,203 Z"
+          fill="rgba(255,255,255,0.12)"
+          stroke="#ffffff"
+          stroke-width="18"
+          stroke-linejoin="round"
+          stroke-linecap="round"
+          filter="url(#ts)"/>
+
+    <!-- NEO -->
+    <g fill="none" stroke="#ffffff" stroke-width="15" stroke-linecap="round" stroke-linejoin="round">
+      <!-- N: ㄹ 90도 회전 한붓그리기 -->
+      <polyline points="203.5,242 203.5,297 181,297 181,242 158.5,242 158.5,297"/>
+      <!-- E: 가로 3줄 -->
+      <line x1="233.5" y1="242" x2="278.5" y2="242"/>
+      <line x1="233.5" y1="269.5" x2="278.5" y2="269.5"/>
+      <line x1="233.5" y1="297" x2="278.5" y2="297"/>
+      <!-- O: 빈 사각형 창문 -->
+      <rect x="308.5" y="242" width="45" height="55" rx="2"/>
+    </g>
+  </g>
+
+  <!-- "3D건물견적" — y 405→415 (10px 아래, 약 2%↓) -->
+  <text x="256" y="415" text-anchor="middle"
+        textLength="340" lengthAdjust="spacingAndGlyphs"
+        font-family="'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif"
+        font-size="78" font-weight="800" fill="#ffffff"
+        letter-spacing="-1">3D건물견적</text>
+</svg>
