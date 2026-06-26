@@ -5,7 +5,8 @@
       "namespace": "android_app",
       "package_name": "com.neopanel.app",
       "sha256_cert_fingerprints": [
-        "E5:F7:18:7E:9E:CC:B8:68:1F:4C:22:46:61:6A:0C:01:BE:94:EC:4E:6A:67:BB:5A:24:AF:24:30:0D:E2:D3:71"
+        "E5:F7:18:7E:9E:CC:B8:68:1F:4C:22:46:61:6A:0C:01:BE:94:EC:4E:6A:67:BB:5A:24:AF:24:30:0D:E2:D3:71",
+        "A4:F5:6F:B9:81:3B:3D:75:B7:A1:DE:E0:2B:B4:63:06:EB:1C:D1:06:6D:6F:E0:EB:8D:1F:94:3A:C7:95:68:D5"
       ]
     }
   }
