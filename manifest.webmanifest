@@ -4,7 +4,7 @@
   "description": "샌드위치패널 자동견적·적산·3D시뮬레이터 통합 어플",
   "start_url": ".",
   "scope": ".",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#1a1f2e",
   "theme_color": "#1a1f2e",
   "orientation": "landscape",
