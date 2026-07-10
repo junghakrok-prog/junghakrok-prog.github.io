@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko" style="background:#1a1f2e">
+  <head>
+    <meta charset="UTF-8" />
+    <style>html,body{background:#1a1f2e;margin:0}</style>
+    <!-- index.html은 항상 새로 받기 (Service Worker 없음 — 옛날 JS 파일명 캐시 방지) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <!-- 아이콘 — PNG 우선 (현대 브라우저 모두 지원), SVG는 fallback -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+    <link rel="icon" type="image/svg+xml" href="app-icon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#1a1f2e" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="네오" />
+    <title>네오 - 3D 자동견적</title>
+    <meta name="description" content="샌드위치패널 자동견적·3D 시뮬레이터 — 가로·세로·높이만 입력하면 자재비를 즉시 확인. 건축주 간편견적 / 시공업자 전문견적. ㈜네오판넬." />
+    <link rel="canonical" href="https://junghakrok-prog.github.io/" />
+    <meta name="robots" content="index,follow" />
+    <!-- 공유 미리보기 (Open Graph / Twitter) — 링크 공유 시 카드 노출 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="㈜네오판넬" />
+    <meta property="og:title" content="네오 - 3D 자동견적" />
+    <meta property="og:description" content="샌드위치패널 자재비 즉시 견적 + 3D 시뮬레이터. 치수만 입력하면 끝." />
+    <meta property="og:url" content="https://junghakrok-prog.github.io/" />
+    <meta property="og:image" content="https://junghakrok-prog.github.io/icons/icon-512.png" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="네오 - 3D 자동견적" />
+    <meta name="twitter:description" content="샌드위치패널 자재비 즉시 견적 + 3D 시뮬레이터." />
+    <meta name="twitter:image" content="https://junghakrok-prog.github.io/icons/icon-512.png" />
+    <script type="module" crossorigin src="./assets/index-4KX_sl0q.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/vendor-react-C6WxKkic.js">
+    <link rel="modulepreload" crossorigin href="./assets/vendor-firebase-BuF8Hmq5.js">
+    <link rel="modulepreload" crossorigin href="./assets/vendor-three-CcYpyw_W.js">
+    <link rel="stylesheet" crossorigin href="./assets/index-kHx2b-8O.css">
+  <script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
