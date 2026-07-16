@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0;height:100%;overflow:hidden;background:#111}canvas{display:block}#lbl{position:fixed;top:14px;left:14px;font:800 30px sans-serif;color:#fff;background:rgba(0,0,0,.45);padding:8px 18px;border-radius:14px;font-family:'Noto Sans KR',sans-serif}</style></head><body>
+<div id="lbl"></div>
+<script type="module">
+import * as THREE from 'https://esm.sh/three@0.160.0';
+const P=new URLSearchParams(location.search);
+const S=P.get('s')||'summer';
+const NM={spring:'🌸 봄 (벚꽃)',summer:'☀️ 여름 (맑음)',autumn:'🍁 가을 (단풍)',winter:'❄️ 겨울 (설경)'};
+document.getElementById('lbl').textContent=NM[S]||S;
+const W=innerWidth,H=innerHeight;
+const sc=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(58,W/H,0.1,100000);
+const rn=new THREE.WebGLRenderer({antialias:true});rn.setSize(W,H);rn.outputColorSpace=THREE.SRGBColorSpace;document.body.append(rn.domElement);
+// ── 스카이돔 (앱과 동일 매핑: repeat(1,1) BackSide) ──
+const domeMat=new THREE.MeshBasicMaterial({side:THREE.BackSide,color:0x9fb2c6});
+sc.add(new THREE.Mesh(new THREE.SphereGeometry(18000,64,40),domeMat));
+new THREE.TextureLoader().load('/src/assets/bg_'+S+'.jpg',t=>{t.colorSpace=THREE.SRGBColorSpace;t.wrapS=THREE.RepeatWrapping;t.repeat.set(1,1);t.wrapT=THREE.ClampToEdgeWrapping;domeMat.map=t;domeMat.color.set(0xffffff);domeMat.needsUpdate=true;});
+// ── 데모 건물 (박공지붕 느낌) ──
+sc.add(new THREE.AmbientLight(0xd4e0f0,1.5));
+const dl=new THREE.DirectionalLight(0xfff5e0,1.9);dl.position.set(30,55,-15);sc.add(dl);
+sc.add(new THREE.HemisphereLight(0x87ceeb,0x5a7a3a,0.8));
+const bw=9,bd=11,bh=5;
+const wall=new THREE.MeshStandardMaterial({color:0xbfc3c7,roughness:0.72,metalness:0.03});
+const body=new THREE.Mesh(new THREE.BoxGeometry(bw,bh,bd),wall);body.position.set(bw/2,bh/2,bd/2);sc.add(body);
+// 박공 지붕 (삼각 프리즘)
+const rise=1.6;const shp=new THREE.Shape();shp.moveTo(-bw/2-0.25,0);shp.lineTo(bw/2+0.25,0);shp.lineTo(0,rise);shp.closePath();
+const roofG=new THREE.ExtrudeGeometry(shp,{depth:bd+0.5,bevelEnabled:false});
+const roof=new THREE.Mesh(roofG,new THREE.MeshStandardMaterial({color:0x3f6f9c,roughness:0.55,metalness:0.15}));
+roof.rotation.y=Math.PI/2;roof.position.set(bw/2,bh,bd/2-(bd+0.5)/2+ (bd+0.5)/2 );
+roof.position.set(bw/2,bh, -0.25); sc.add(roof);
+// 창문 몇 개
+const glass=new THREE.MeshStandardMaterial({color:0x2a3f55,roughness:0.15,metalness:0.6});
+for(const wx of [bw*0.28,bw*0.72]){const win=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.6,0.1),glass);win.position.set(wx,2.4,-0.02);sc.add(win);}
+// 바닥
+const gnd=new THREE.Mesh(new THREE.PlaneGeometry(400,400),new THREE.MeshStandardMaterial({color:0x9a9a98,roughness:0.95}));gnd.rotation.x=-Math.PI/2;gnd.position.set(bw/2,0,bd/2);sc.add(gnd);
+// ── 카메라: 눈높이 3/4 뷰(배경 풍경이 잘 보이는 각도) ──
+const cx=bw/2,cy=bh*0.42,cz=bd/2;const dist=Math.max(bw,bd,bh)*2.0;
+cam.position.set(cx+dist*0.85,cy+dist*0.28,cz+dist*0.95);cam.lookAt(cx,cy+0.5,cz);
+let n=0;const loop=()=>{rn.render(sc,cam);if(n++<180)requestAnimationFrame(loop);};loop();
+window.__ready=()=>{rn.render(sc,cam);return true;};
+</script></body></html>
