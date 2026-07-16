@@ -21,15 +21,16 @@ sc.add(new THREE.HemisphereLight(0x87ceeb,0x5a7a3a,0.8));
 const bw=9,bd=11,bh=5;
 const wall=new THREE.MeshStandardMaterial({color:0xbfc3c7,roughness:0.72,metalness:0.03});
 const body=new THREE.Mesh(new THREE.BoxGeometry(bw,bh,bd),wall);body.position.set(bw/2,bh/2,bd/2);sc.add(body);
-// 박공 지붕 (삼각 프리즘)
-const rise=1.6;const shp=new THREE.Shape();shp.moveTo(-bw/2-0.25,0);shp.lineTo(bw/2+0.25,0);shp.lineTo(0,rise);shp.closePath();
-const roofG=new THREE.ExtrudeGeometry(shp,{depth:bd+0.5,bevelEnabled:false});
+// 박공 지붕 — 삼각 단면(XY)을 Z(깊이)로 압출, 회전 없이 건물 위 정위치
+const rise=1.7;const shp=new THREE.Shape();shp.moveTo(-bw/2-0.3,0);shp.lineTo(bw/2+0.3,0);shp.lineTo(0,rise);shp.closePath();
+const roofG=new THREE.ExtrudeGeometry(shp,{depth:bd+0.6,bevelEnabled:false});
 const roof=new THREE.Mesh(roofG,new THREE.MeshStandardMaterial({color:0x3f6f9c,roughness:0.55,metalness:0.15}));
-roof.rotation.y=Math.PI/2;roof.position.set(bw/2,bh,bd/2-(bd+0.5)/2+ (bd+0.5)/2 );
-roof.position.set(bw/2,bh, -0.25); sc.add(roof);
-// 창문 몇 개
+roof.position.set(bw/2,bh,-0.3);sc.add(roof);
+// 창문 (정면 z=0 쪽)
 const glass=new THREE.MeshStandardMaterial({color:0x2a3f55,roughness:0.15,metalness:0.6});
-for(const wx of [bw*0.28,bw*0.72]){const win=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.6,0.1),glass);win.position.set(wx,2.4,-0.02);sc.add(win);}
+for(const wx of [bw*0.28,bw*0.72]){const win=new THREE.Mesh(new THREE.BoxGeometry(1.4,1.7,0.12),glass);win.position.set(wx,2.5,-0.03);sc.add(win);}
+// 양개문
+const door=new THREE.Mesh(new THREE.BoxGeometry(1.8,2.1,0.12),new THREE.MeshStandardMaterial({color:0x8a8f96,roughness:0.5,metalness:0.3}));door.position.set(bw*0.5,1.05,-0.03);sc.add(door);
 // 바닥
 const gnd=new THREE.Mesh(new THREE.PlaneGeometry(400,400),new THREE.MeshStandardMaterial({color:0x9a9a98,roughness:0.95}));gnd.rotation.x=-Math.PI/2;gnd.position.set(bw/2,0,bd/2);sc.add(gnd);
 // ── 카메라: 눈높이 3/4 뷰(배경 풍경이 잘 보이는 각도) ──
