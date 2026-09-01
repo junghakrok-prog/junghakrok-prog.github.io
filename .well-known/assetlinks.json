@@ -9,5 +9,16 @@
         "A4:F5:6F:B9:81:3B:3D:75:B7:A1:DE:E0:2B:B4:63:06:EB:1C:D1:06:6D:6F:E0:EB:8D:1F:94:3A:C7:95:68:D5"
       ]
     }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.neopanel.quote3d",
+      "sha256_cert_fingerprints": [
+        "E0:5A:1E:F1:2D:92:3D:72:F1:F7:A0:3F:D2:BC:6B:E6:AF:3E:D5:25:F9:25:63:DD:70:70:49:95:C9:AF:04:0E",
+        "9F:8C:7A:01:AE:0E:AF:E0:4E:0F:73:D2:F9:49:AF:5F:FF:AE:9F:DC:67:8F:A4:AB:E9:9C:C9:92:3D:19:6C:AD"
+      ]
+    }
   }
 ]
