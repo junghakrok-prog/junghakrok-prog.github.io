@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AR 되는지 확인 — ㈜네오판넬</title>
+<!--
+  [1일차 실기기 확인용 · 2026-09-21] 안드로이드 AR(WebXR immersive-ar) 도입 전 분기점 확인.
+  ⚠ 이 페이지는 앱과 완전히 분리돼 있다 — 앱 코드를 한 줄도 부르지 않는다.
+  확인해야 하는 것은 딱 하나: **설치된 「네오」 앱(TWA) 안에서도 AR 세션이 열리는가.**
+  크롬에서 되는 것은 공식 문서로 확인됐지만 TWA 컨텍스트는 구글 문서에 언급이 없다.
+  ⚠ vite.config.js 의 workbox globIgnores 에 등록해 서비스워커 precache 를 태우지 않는다.
+-->
+<style>
+  :root{color-scheme:light}
+  body{margin:0;padding:20px 18px 40px;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+       background:#f2f4f6;color:#16202b;font-size:19px;line-height:1.6}
+  h1{font-size:26px;font-weight:900;margin:0 0 4px}
+  .sub{color:#6b7c8c;font-size:15px;margin-bottom:18px}
+  .card{background:#fff;border:1px solid #d8dfe5;border-radius:10px;padding:18px;margin-bottom:14px}
+  .big{font-size:40px;font-weight:900;line-height:1.25;margin:6px 0 2px}
+  .ok{color:#1f7a5a}.no{color:#b3341f}.wait{color:#a96a00}
+  .lab{font-size:15px;color:#6b7c8c;font-weight:700;letter-spacing:.02em}
+  button{width:100%;padding:22px;font-size:26px;font-weight:900;border:none;border-radius:12px;
+         background:#e8590c;color:#fff;cursor:pointer;margin-top:6px}
+  button:disabled{background:#c4ccd3}
+  table{width:100%;border-collapse:collapse;font-size:15px;margin-top:6px}
+  td{padding:7px 4px;border-bottom:1px solid #eef1f4;vertical-align:top}
+  td:first-child{color:#6b7c8c;width:38%}
+  .note{font-size:15px;color:#6b7c8c;margin-top:16px}
+</style>
+</head>
+<body>
+  <h1>AR 되는지 확인</h1>
+  <div class="sub">㈜네오판넬 · 이 화면을 <b>①크롬</b>과 <b>②「네오」 앱</b> 두 군데서 각각 열어 주세요</div>
+
+  <div class="card">
+    <div class="lab">① 이 폰이 AR을 지원하나?</div>
+    <div class="big wait" id="sup">확인 중…</div>
+    <div id="supWhy" class="lab"></div>
+  </div>
+
+  <div class="card">
+    <div class="lab">② 카메라 AR이 실제로 켜지나?</div>
+    <button id="go" disabled>AR 켜보기</button>
+    <div class="big wait" id="ses">아직 안 눌렀습니다</div>
+    <div id="sesWhy" class="lab"></div>
+  </div>
+
+  <div class="card">
+    <div class="lab">지금 어디서 열었나</div>
+    <table>
+      <tr><td>여는 곳</td><td id="where">-</td></tr>
+      <tr><td>보안연결</td><td id="https">-</td></tr>
+      <tr><td>기기</td><td id="ua">-</td></tr>
+    </table>
+  </div>
+
+  <div class="note">이 화면을 <b>그대로 사진 찍어</b> 보내주시면 됩니다.<br>
+  ①과 ②가 둘 다 초록색이면 성공입니다.</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  /* TWA(설치된 앱)로 열면 document.referrer 가 android-app:// 로 온다 — 이것이 크롬과 앱을 가르는 유일한 신호다 */
+  var ref=document.referrer||'';
+  var isTWA=ref.indexOf('android-app://')===0;
+  $('where').textContent=isTWA?'✅ 설치된 「네오」 앱 (TWA)':'브라우저 (크롬 등)'+(ref?' · '+ref.slice(0,40):'');
+  $('https').textContent=location.protocol==='https:'?'https ✅':location.protocol+' ⚠ (AR은 https에서만 됩니다)';
+  $('ua').textContent=(navigator.userAgent||'').slice(0,110);
+
+  if(!('xr' in navigator)){
+    $('sup').textContent='안 됨';$('sup').className='big no';
+    $('supWhy').textContent='이 브라우저에 WebXR 기능 자체가 없습니다(아이폰 사파리는 원래 없습니다).';
+    return;
+  }
+  navigator.xr.isSessionSupported('immersive-ar').then(function(ok){
+    if(ok){
+      $('sup').textContent='지원함';$('sup').className='big ok';
+      $('supWhy').textContent='이 폰은 AR을 쓸 수 있습니다. 아래 버튼을 눌러 주세요.';
+      $('go').disabled=false;
+    }else{
+      $('sup').textContent='안 됨';$('sup').className='big no';
+      $('supWhy').textContent='기기가 AR을 지원하지 않거나 「Google Play 서비스(AR)」가 설치되지 않았습니다.';
+    }
+  }).catch(function(e){
+    $('sup').textContent='확인 실패';$('sup').className='big no';
+    $('supWhy').textContent=String(e&&e.message||e).slice(0,140);
+  });
+
+  $('go').onclick=function(){
+    $('ses').textContent='여는 중…';$('ses').className='big wait';$('sesWhy').textContent='';
+    navigator.xr.requestSession('immersive-ar',{requiredFeatures:['hit-test']}).then(function(s){
+      $('ses').textContent='켜졌습니다';$('ses').className='big ok';
+      $('sesWhy').textContent='카메라 화면이 보이면 성공입니다. 3초 뒤 자동으로 닫힙니다.';
+      setTimeout(function(){try{s.end()}catch(e){}},3000);
+      s.addEventListener('end',function(){$('sesWhy').textContent='카메라가 켜졌다 정상적으로 닫혔습니다. ✅ 성공';});
+    }).catch(function(e){
+      $('ses').textContent='안 켜짐';$('ses').className='big no';
+      $('sesWhy').textContent=(e&&e.name?e.name+': ':'')+String(e&&e.message||e).slice(0,160);
+    });
+  };
+})();
+</script>
+</body>
+</html>
