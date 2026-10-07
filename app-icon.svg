@@ -7,8 +7,8 @@
 
   <!-- 배경 — splash background_color와 완전 동일 단색 (경계 X) -->
   <rect width="512" height="512" rx="112" fill="#e67e22"/>
-<!-- [사장님 2026-10-07 "아이콘크기를 전체적으로 조금만 더 키우자" → 비교 후 "8%"] 집+글자 전체 8% 확대 -->
-<g transform="translate(256,250) scale(1.08) translate(-256,-250)">
+<!-- [사장님 2026-10-07 "아이콘크기를 전체적으로 조금만 더 키우자" → 비교 후 "10%"] 집+글자 전체 10% 확대 -->
+<g transform="translate(256,250) scale(1.10) translate(-256,-250)">
 
   <!-- 박공집 + NEO 그룹 — 추가 15px 위(약 3%↑) -->
   <g transform="translate(256,211) scale(1.0) translate(-256,-256)">
